@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.ExitCodeGenerator;
+import org.springframework.boot.diagnostics.AbstractFailureAnalyzer;
+import org.springframework.boot.diagnostics.FailureAnalysis;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -62,5 +65,18 @@ class GreetingTemplateRequired extends RuntimeException implements ExitCodeGener
     @Override
     public int getExitCode() {
         return 11;
+    }
+}
+
+@Slf4j
+@Component
+class GreetingFailureAnalyzer extends AbstractFailureAnalyzer<GreetingTemplateRequired> {
+
+    @Override
+    protected FailureAnalysis analyze(Throwable rootFailure, GreetingTemplateRequired cause) {
+        return new FailureAnalysis(
+                "Greeting template undefined.",
+                "Define greeting.template property.",
+                rootFailure);
     }
 }
