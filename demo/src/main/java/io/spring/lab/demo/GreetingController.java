@@ -1,20 +1,29 @@
 package io.spring.lab.demo;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestController
-class GreetingController {
+class GreetingController implements ApplicationRunner {
 
     public static final String GREETINGS_PATH = "/greetings/{name}";
 
     @Value("${greeting.template:Hello %s}")
     String template;
+
+    @Override
+    public void run(ApplicationArguments args) throws Exception {
+        log.info("Defined greeting template: {}", template);
+    }
 
     @GetMapping(GREETINGS_PATH)
     Greeting greet(@PathVariable("name") String name) {
