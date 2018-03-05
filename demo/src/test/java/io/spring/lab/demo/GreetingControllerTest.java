@@ -14,7 +14,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = RANDOM_PORT)
+@SpringBootTest(webEnvironment = RANDOM_PORT, properties = {
+        "greeting.template=Hello from test %s"
+})
 public class GreetingControllerTest {
 
     @Autowired TestRestTemplate rest;
@@ -27,6 +29,6 @@ public class GreetingControllerTest {
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isNotNull();
-        assertThat(response.getBody().getMessage()).isEqualTo("Hello again Jane");
+        assertThat(response.getBody().getMessage()).isEqualTo("Hello from test Jane");
     }
 }
