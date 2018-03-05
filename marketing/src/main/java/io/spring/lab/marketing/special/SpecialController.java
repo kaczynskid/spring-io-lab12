@@ -23,5 +23,4 @@ public class SpecialController {
                 .map(SpecialRepresentation::of)
                 .collect(toList());
     }
-
 }

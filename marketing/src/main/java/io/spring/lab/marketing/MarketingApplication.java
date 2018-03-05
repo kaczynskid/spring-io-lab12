@@ -21,13 +21,8 @@ public class MarketingApplication {
 	}
 
 	@Bean
-	MathProperties math() {
-		return new MathProperties();
-	}
-
-	@Bean
-	SpecialSelector specialSelector() {
-		return new BestSpecialSelector(math());
+	SpecialSelector specialSelector(MathProperties math) {
+		return new BestSpecialSelector(math);
 	}
 
 	@Bean
