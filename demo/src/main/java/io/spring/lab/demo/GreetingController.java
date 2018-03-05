@@ -4,11 +4,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import lombok.Data;
+import lombok.Value;
 
 @RestController
 class GreetingController {
-
 
     @GetMapping("/greetings/{name}")
     Greeting greet(@PathVariable("name") String name) {
@@ -16,7 +15,7 @@ class GreetingController {
     }
 }
 
-@Data
+@Value
 class Greeting {
 
     private String message;
