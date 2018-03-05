@@ -9,8 +9,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import org.springframework.stereotype.Component;
+
 import io.spring.lab.marketing.special.calculate.SpecialCalculator;
 
+@Component
 class StubSpecialRepository implements SpecialRepository {
 
     private final Map<String, Special> db = new HashMap<>();
