@@ -37,7 +37,3 @@ class DataInitializer implements ApplicationRunner {
 	}
 }
 
-@Configuration
-@EnableJpaRepositories(considerNestedRepositories = true)
-class JpaRepositoriesConfig {
-}
