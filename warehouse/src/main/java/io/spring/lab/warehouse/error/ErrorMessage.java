@@ -1,4 +1,4 @@
-package io.spring.lab.warehouse;
+package io.spring.lab.warehouse.error;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

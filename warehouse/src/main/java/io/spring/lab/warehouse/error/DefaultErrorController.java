@@ -1,6 +1,6 @@
-package io.spring.lab.warehouse;
+package io.spring.lab.warehouse.error;
 
-import static io.spring.lab.warehouse.ErrorMessage.messageResponseOf;
+import static io.spring.lab.warehouse.error.ErrorMessage.messageResponseOf;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 
 import org.springframework.boot.autoconfigure.web.ErrorController;
