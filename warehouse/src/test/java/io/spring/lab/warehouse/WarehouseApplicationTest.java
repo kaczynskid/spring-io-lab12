@@ -1,16 +1,20 @@
 package io.spring.lab.warehouse;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import static org.assertj.core.api.Assertions.assertThat;
 
-@RunWith(SpringRunner.class)
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.ApplicationContext;
+
 @SpringBootTest
-public class WarehouseApplicationTest {
+public class WarehouseApplicationTest extends SpringTestBase {
+
+	@Autowired
+	ApplicationContext applicationContext;
 
 	@Test
 	public void contextLoads() {
+		assertThat(applicationContext).isNotNull();
 	}
-
 }

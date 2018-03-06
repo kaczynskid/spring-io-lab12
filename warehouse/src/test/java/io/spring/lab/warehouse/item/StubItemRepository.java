@@ -9,9 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
-import org.springframework.stereotype.Component;
-
-@Component
 class StubItemRepository implements ItemRepository {
 
     private final AtomicLong seq = new AtomicLong();
