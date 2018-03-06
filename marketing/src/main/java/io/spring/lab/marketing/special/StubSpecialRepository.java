@@ -1,5 +1,6 @@
 package io.spring.lab.marketing.special;
 
+import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
 import static org.apache.commons.lang3.reflect.FieldUtils.writeField;
 
@@ -51,7 +52,7 @@ class StubSpecialRepository implements SpecialRepository {
 
     private String setAndGetNextId(Special special) {
         try {
-            String id = UUID.randomUUID().toString();
+            String id = ofNullable(special.getId()).orElseGet(() -> UUID.randomUUID().toString());
             writeField(special, "id", id, true);
             return id;
         } catch (IllegalAccessException e) {
