@@ -2,6 +2,8 @@ package io.spring.lab.warehouse.item;
 
 import static lombok.AccessLevel.PRIVATE;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -17,12 +19,9 @@ public class ItemStockUpdate {
 
 	private final int countDiff;
 
-	static ItemStockUpdate of(int countDiff) {
+	@JsonCreator
+	static ItemStockUpdate of(@JsonProperty("countDiff") int countDiff) {
 		return new ItemStockUpdate(0, countDiff);
-	}
-
-	ItemStockUpdate withId(long id) {
-		return new ItemStockUpdate(id, countDiff);
 	}
 
 	int applyFor(Item item) {
@@ -33,5 +32,9 @@ public class ItemStockUpdate {
 		}
 
 		return count + countDiff;
+	}
+
+	ItemStockUpdate withId(long id) {
+		return new ItemStockUpdate(id, countDiff);
 	}
 }

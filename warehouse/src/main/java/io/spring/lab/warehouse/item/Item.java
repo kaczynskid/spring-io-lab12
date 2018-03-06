@@ -7,12 +7,14 @@ import java.math.BigDecimal;
 import org.apache.commons.lang3.Validate;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode
 public class Item {
 
 	private Long id;

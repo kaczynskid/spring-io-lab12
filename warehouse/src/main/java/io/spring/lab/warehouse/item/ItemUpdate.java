@@ -4,6 +4,8 @@ import static lombok.AccessLevel.PRIVATE;
 
 import java.math.BigDecimal;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -21,7 +23,8 @@ class ItemUpdate {
 
 	private final BigDecimal price;
 
-	static ItemUpdate of(String name, BigDecimal price) {
+	@JsonCreator
+	static ItemUpdate of(@JsonProperty("name") String name, @JsonProperty("price") BigDecimal price) {
 		return new ItemUpdate(0, name, price);
 	}
 

@@ -1,5 +1,6 @@
 package io.spring.lab.warehouse.item;
 
+import static java.util.Optional.ofNullable;
 import static org.apache.commons.lang3.reflect.FieldUtils.writeField;
 
 import java.util.ArrayList;
@@ -35,7 +36,7 @@ class StubItemRepository implements ItemRepository {
 
     private long setAndGetNextId(Item item) {
         try {
-            long id = seq.incrementAndGet();
+            long id = ofNullable(item.getId()).orElseGet(seq::incrementAndGet);
             writeField(item, "id", id, true);
             return id;
         } catch (IllegalAccessException e) {
