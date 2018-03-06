@@ -1,5 +1,7 @@
 package io.spring.lab.warehouse.item
 
+import org.springframework.boot.actuate.metrics.CounterService
+import org.springframework.boot.actuate.metrics.GaugeService
 import spock.lang.Specification
 
 import static io.spring.lab.warehouse.TestDataConfiguration.itemsTestData
@@ -8,7 +10,11 @@ class ItemServiceSpec extends Specification {
 
     ItemRepository repository = new StubItemRepository()
 
-    ItemService items = new ItemService(repository)
+    CounterService counters = Mock()
+
+    GaugeService gauges = Mock();
+
+    ItemService items = new ItemService(repository, counters, gauges)
 
     void setup() {
         itemsTestData(repository)

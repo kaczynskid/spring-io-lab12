@@ -3,3 +3,6 @@ spring:
     hibernate:
       ddl-auto: none
     show-sql: true
+
+graphite:
+  enabled: false
