@@ -5,5 +5,4 @@ spring:
     password: sprio
   jpa:
     hibernate:
-      ddl-auto: create-drop
-    show-sql: true
+      ddl-auto: validate
