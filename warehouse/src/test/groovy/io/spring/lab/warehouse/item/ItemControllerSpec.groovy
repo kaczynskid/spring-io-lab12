@@ -3,7 +3,6 @@ package io.spring.lab.warehouse.item
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.spring.lab.warehouse.SpringSpecBase
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.json.AutoConfigureJson
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.web.servlet.MockMvc
@@ -13,6 +12,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
@@ -39,12 +39,8 @@ class ItemControllerSpec extends SpringSpecBase {
             def resp = mvc.perform(post('/items').contentType(APPLICATION_JSON_UTF8)
                     .content(json.writeValueAsString([name: 'test', count: 5, price: 13.5])))
         then:
-            resp.andExpect(status().isOk())
-                .andExpect(content().contentType(APPLICATION_JSON_UTF8))
-                .andExpect(jsonPath('$.id').value(5L))
-                .andExpect(jsonPath('$.name').value('test'))
-                .andExpect(jsonPath('$.count').value(5))
-                .andExpect(jsonPath('$.price').value(13.5))
+            resp.andExpect(status().isCreated())
+                    .andExpect(header().string('Location', 'http://localhost/items/5'));
     }
 
     def "Should find item"() {

@@ -1,13 +1,17 @@
 package io.spring.lab.warehouse.item;
 
 import static io.spring.lab.warehouse.TestDataConfiguration.itemsTestData;
+import static org.apache.commons.lang3.reflect.FieldUtils.writeField;
+import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -15,6 +19,7 @@ import java.math.BigDecimal;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -50,19 +55,24 @@ public class ItemControllerTest {
 
     @Test
     public void shouldCreateItem() throws Exception {
-        Item item = new Item(5L, "test", 5, BigDecimal.valueOf(13.5));
+        long itemId = 5L;
+        Item item = new Item(null, "test", 5, BigDecimal.valueOf(13.5));
 
-        doReturn(item)
-                .when(items).create(new Item(null, "test", 5, BigDecimal.valueOf(13.5)));
+        doAnswer(returnItemWithSetId(itemId))
+                .when(items).create(item);
 
         mvc.perform(post("/items").contentType(APPLICATION_JSON_UTF8)
                 .content("{\"name\": \"test\", \"count\": 5, \"price\": 13.5}"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(APPLICATION_JSON_UTF8))
-                .andExpect(jsonPath("$.id").value(item.getId()))
-                .andExpect(jsonPath("$.name").value(item.getName()))
-                .andExpect(jsonPath("$.count").value(item.getCount()))
-                .andExpect(jsonPath("$.price").value(item.getPrice()));
+                .andExpect(status().isCreated())
+                .andExpect(header().string("Location", "http://localhost/items/5"));
+    }
+
+    private static Answer returnItemWithSetId(long itemId) {
+        return invocation -> {
+            Item item = invocation.getArgumentAt(0, Item.class);
+            writeField(item, "id", itemId, true);
+            return item;
+        };
     }
 
     @Test
