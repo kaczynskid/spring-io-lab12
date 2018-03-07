@@ -1,3 +1,6 @@
+info:
+  instanceId: test
+
 spring:
   jpa:
     hibernate:

@@ -11,6 +11,7 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 import java.net.URI;
 import java.util.List;
 
+import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,10 +33,15 @@ class ItemController {
 
     private final ItemService items;
 
+    private final Environment env;
+
     @GetMapping
     List<ItemRepresentation> findAll() {
         List<Item> list = items.findAll();
-        return list.stream().map(ItemRepresentation::of).collect(toList());
+        return list.stream()
+                .map(ItemRepresentation::of)
+                .map(r -> r.withInstanceId(env.getRequiredProperty("info.instanceId")))
+                .collect(toList());
     }
 
     @PostMapping
@@ -51,7 +57,8 @@ class ItemController {
     @GetMapping("/{id}")
     public ItemRepresentation findOne(@PathVariable("id") long id) {
         Item item = items.findOne(id);
-        return ItemRepresentation.of(item);
+        return ItemRepresentation.of(item)
+                .withInstanceId(env.getRequiredProperty("info.instanceId"));
     }
 
     @PutMapping("/{id}")

@@ -10,6 +10,7 @@ spring:
 
 eureka:
   instance:
+    instanceId: ${spring.application.name}-${info.instanceId}
     prefer-ip-address: true
   client:
     serviceUrl:

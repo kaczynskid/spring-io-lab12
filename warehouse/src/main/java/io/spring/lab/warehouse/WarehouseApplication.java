@@ -1,13 +1,14 @@
 package io.spring.lab.warehouse;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.stereotype.Component;
 
 import io.spring.lab.warehouse.item.Item;
@@ -18,7 +19,15 @@ import lombok.AllArgsConstructor;
 public class WarehouseApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(WarehouseApplication.class, args);
+		SpringApplication app = new SpringApplication(WarehouseApplication.class);
+		app.setDefaultProperties(defaultProperties());
+		app.run(args);
+	}
+
+	private static Map<String, Object> defaultProperties() {
+		Map<String, Object> props = new HashMap<>();
+		props.put("info.instanceId", UUID.randomUUID().toString().replaceAll("-", ""));
+		return props;
 	}
 }
 

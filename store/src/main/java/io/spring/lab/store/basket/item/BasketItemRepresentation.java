@@ -21,7 +21,9 @@ public class BasketItemRepresentation {
 
 	private BigDecimal price;
 
+	private String instanceId;
+
 	public static BasketItemRepresentation of(BasketItem item) {
-		return new BasketItemRepresentation(item.getItemId(), item.getName(), item.getUnitCount(), item.getTotalPrice());
+		return new BasketItemRepresentation(item.getItemId(), item.getName(), item.getUnitCount(), item.getTotalPrice(), item.getInstanceId());
 	}
 }

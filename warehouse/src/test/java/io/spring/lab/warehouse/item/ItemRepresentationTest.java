@@ -20,7 +20,7 @@ public class ItemRepresentationTest {
 
     @Test
     public void shouldSerializeItemRepresentation() throws Exception {
-        ItemRepresentation item = new ItemRepresentation(1L, "A", 100, BigDecimal.valueOf(40.0));
+        ItemRepresentation item = new ItemRepresentation(1L, "A", 100, BigDecimal.valueOf(40.0), null);
 
         JsonContent<ItemRepresentation> result = json.write(item);
 

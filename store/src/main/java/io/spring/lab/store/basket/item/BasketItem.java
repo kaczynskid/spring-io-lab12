@@ -60,9 +60,22 @@ public class BasketItem {
 
 	private String specialId;
 
+	private String instanceId;
+
 	public BasketItem(Long basketId, Long itemId) {
 		this.basketId = basketId;
 		this.itemId = itemId;
+	}
+
+	public BasketItem(Long id, Long basketId, Long itemId, String name, BigDecimal unitPrice, int unitCount, BigDecimal totalPrice, String specialId) {
+		this.id = id;
+		this.basketId = basketId;
+		this.itemId = itemId;
+		this.name = name;
+		this.unitPrice = unitPrice;
+		this.unitCount = unitCount;
+		this.totalPrice = totalPrice;
+		this.specialId = specialId;
 	}
 
 	BasketUpdateDiff update(ItemRepresentation changes, int newUnitCount, SpecialCalculation special, MathProperties math) {
@@ -74,6 +87,7 @@ public class BasketItem {
 		name = changes.getName();
 		unitPrice = changes.getPrice();
 		specialId = special.getSpecialId();
+		instanceId = changes.getInstanceId();
 		return new BasketUpdateDiff(
 				updateItemCount(newUnitCount),
 				updateTotalPrice(special.getTotalPrice(), math));
