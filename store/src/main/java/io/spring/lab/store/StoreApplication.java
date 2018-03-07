@@ -1,13 +1,16 @@
 package io.spring.lab.store;
 
 import java.math.BigDecimal;
-import java.util.Collections;
 import java.util.List;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
+import org.springframework.web.client.RestTemplate;
 
 import io.spring.lab.store.item.ItemRepresentation;
 import io.spring.lab.store.item.ItemStockUpdate;
@@ -25,24 +28,44 @@ public class StoreApplication {
 }
 
 @Configuration
+class DiscoveryConfig {
+
+	@Bean @LoadBalanced
+	RestTemplate restTemplate() {
+		return new RestTemplate();
+	}
+
+}
+
+@Configuration
 class ClientsConfig {
 
 	@Bean
-	ItemsClient itemsClient() {
+	ItemsClient restTemplateItemsClient(RestTemplate rest) {
 		return new ItemsClient() {
 			@Override
 			public List<ItemRepresentation> findAll() {
-				return Collections.emptyList();
+				ParameterizedTypeReference<List<ItemRepresentation>> responseType =
+						new ParameterizedTypeReference<List<ItemRepresentation>>() {};
+				return rest
+						.exchange(
+								"http://warehouse/items",
+								HttpMethod.GET,
+								null,
+								responseType)
+						.getBody();
 			}
 
 			@Override
 			public ItemRepresentation findOne(long id) {
-				return null;
+				return rest
+						.getForEntity("http://warehouse/items/{id}", ItemRepresentation.class, id)
+						.getBody();
 			}
 
 			@Override
 			public void updateStock(ItemStockUpdate changes) {
-
+				rest.put("http://warehouse/items/{id}/stock", changes, changes.getId());
 			}
 		};
 	}
