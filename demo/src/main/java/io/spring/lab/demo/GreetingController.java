@@ -2,10 +2,11 @@ package io.spring.lab.demo;
 
 import javax.annotation.PostConstruct;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.ExitCodeGenerator;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.diagnostics.AbstractFailureAnalyzer;
 import org.springframework.boot.diagnostics.FailureAnalysis;
 import org.springframework.stereotype.Component;
@@ -16,33 +17,44 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
+@AllArgsConstructor
+@EnableConfigurationProperties(GreetingProperties.class)
 class GreetingController implements ApplicationRunner {
 
     public static final String GREETINGS_PATH = "/greetings/{name}";
 
-    @Value("${greeting.template:}")
-    String template;
+    private final GreetingProperties properties;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        log.info("Defined greeting template: {}", template);
+        log.info("Defined greeting template: {}", properties.getTemplate());
     }
 
     @PostConstruct
     void requireTemplate() {
-        if (!StringUtils.hasText(template)) {
+        if (!StringUtils.hasText(properties.getTemplate())) {
             throw new GreetingTemplateRequired();
         }
     }
 
     @GetMapping(GREETINGS_PATH)
     Greeting greet(@PathVariable("name") String name) {
-        return new Greeting(template, name);
+        return new Greeting(properties.getTemplate(), name);
     }
+}
+
+@Data
+@ConfigurationProperties("greeting")
+class GreetingProperties {
+
+    String template;
+
 }
 
 @lombok.Value
