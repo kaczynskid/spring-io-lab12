@@ -1,12 +1,6 @@
 spring:
   application:
-    name: warehouse
-  cloud:
-    config:
-      discovery:
-        enabled: true
-        service-id: config
-      fail-fast: true
+    name: config
 
 eureka:
   instance:

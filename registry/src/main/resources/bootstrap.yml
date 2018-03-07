@@ -1,7 +1,0 @@
-spring:
-  application:
-    name: registry
-  cloud:
-    config:
-      uri: http://localhost:9000
-      fail-fast: true
