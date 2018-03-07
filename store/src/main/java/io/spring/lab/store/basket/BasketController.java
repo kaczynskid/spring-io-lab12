@@ -6,28 +6,23 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import lombok.extern.slf4j.Slf4j;
+import lombok.AllArgsConstructor;
 
-@Slf4j
 @RestController
 @RequestMapping("/baskets")
+@AllArgsConstructor
 public class BasketController {
 
-    private final BasketService baskets;
+	private final BasketService baskets;
 
-    public BasketController(BasketService baskets) {
-        this.baskets = baskets;
-    }
+	@PostMapping
+	public BasketRepresentation create() {
+		Basket basket = baskets.create();
+		return BasketRepresentation.of(basket);
+	}
 
-    @PostMapping
-    public BasketRepresentation create() {
-        Basket basket = baskets.create();
-        log.info("Created basket {}", basket.getId());
-        return BasketRepresentation.of(basket);
-    }
-
-    @GetMapping("/{id}")
-    public BasketRepresentation findOne(@PathVariable("id") long id) {
-        return BasketRepresentation.of(baskets.findOne(id));
-    }
+	@GetMapping("/{id}")
+	public BasketRepresentation findOne(@PathVariable("id") long id) {
+		return BasketRepresentation.of(baskets.findOne(id));
+	}
 }
