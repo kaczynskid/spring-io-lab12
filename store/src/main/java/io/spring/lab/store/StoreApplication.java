@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
@@ -30,6 +31,7 @@ public class StoreApplication {
 
 @Configuration
 @EnableFeignClients
+@EnableCircuitBreaker
 class CloudConfig {
 
 	@Bean @LoadBalanced
