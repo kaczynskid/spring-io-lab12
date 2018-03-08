@@ -15,14 +15,14 @@ import lombok.AllArgsConstructor;
 public class FeignSpecialClient implements SpecialClient {
 
     @FeignClient(name = "marketing", path = "/specials", fallback = Fallback.class)
-    interface Client {
+    interface Specials {
 
         @PostMapping("/{itemId}/calculate")
         SpecialCalculation calculateFor(@PathVariable("itemId") long itemId, @RequestBody SpecialCalculationRequest request);
     }
 
     @Component
-    static class Fallback implements Client {
+    static class Fallback implements Specials {
 
         @Override
         public SpecialCalculation calculateFor(long itemId, SpecialCalculationRequest request) {
@@ -30,10 +30,10 @@ public class FeignSpecialClient implements SpecialClient {
         }
     }
 
-    private final Client client;
+    private final Specials specials;
 
     @Override
     public SpecialCalculation calculateFor(long itemId, SpecialCalculationRequest request) {
-        return client.calculateFor(itemId, request);
+        return specials.calculateFor(itemId, request);
     }
 }
