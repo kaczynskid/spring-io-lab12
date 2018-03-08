@@ -18,7 +18,7 @@ Contract.make {
     response {
         status 200
         body([
-                specialId: 'abcdefghijklmn0123456789',
+                specialId: value(consumer('abcdefghijklmnopqrstuw0123456789'), producer(regex('[a-zA-Z0-9]{32}'))),
                 totalPrice: 150.0
         ])
         headers {

@@ -70,6 +70,6 @@ public class BasketServiceTest extends SpringTestBase {
         BasketItem basketItem = basketItems.findOneItem(basket.getId(), itemId);
         assertThat(basketItem.getName()).isEqualTo("A");
         assertThat(basketItem.getTotalPrice()).isEqualByComparingTo(BigDecimal.valueOf(150.0));
-        assertThat(basketItem.getSpecialId()).isEqualTo("abcdefghijklmn0123456789");
+        assertThat(basketItem.getSpecialId()).isEqualTo("abcdefghijklmnopqrstuw0123456789");
     }
 }

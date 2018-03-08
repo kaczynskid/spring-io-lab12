@@ -135,8 +135,11 @@
 			<plugin>
 				<groupId>org.springframework.cloud</groupId>
 				<artifactId>spring-cloud-contract-maven-plugin</artifactId>
-				<version>1.1.4.RELEASE</version>
+				<version>1.2.3.RELEASE</version>
 				<extensions>true</extensions>
+				<configuration>
+					<baseClassForTests>io.spring.lab.marketing.MarketingContractTestBase</baseClassForTests>
+				</configuration>
 			</plugin>
 
 			<plugin>

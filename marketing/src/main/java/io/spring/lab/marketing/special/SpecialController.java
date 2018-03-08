@@ -33,4 +33,11 @@ public class SpecialController {
         return SpecialRepresentation.of(specials.create(request.asSpecial()));
     }
 
+    @PostMapping("/{itemId}/calculate")
+    public SpecialCalculation calculateFor(@PathVariable("itemId") long itemId,
+                                           @RequestBody SpecialCalculationRequest request) {
+        SpecialCalculation calculation = specials.calculateFor(itemId, request.getUnitPrice(), request.getUnitCount());
+        return calculation;
+    }
+
 }

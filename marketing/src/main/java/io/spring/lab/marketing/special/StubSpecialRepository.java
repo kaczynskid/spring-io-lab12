@@ -32,7 +32,7 @@ class StubSpecialRepository implements SpecialRepository {
     @Override
     public List<SpecialCalculator> findByItemIdAndBatchSizeLessThanEqual(long itemId, int batchSize) {
         return db.values().stream()
-                .filter(it -> it.getItemId() == itemId && it.getBatchSize() == batchSize)
+                .filter(it -> it.getItemId() == itemId && it.getBatchSize() <= batchSize)
                 .collect(toList());
     }
 
