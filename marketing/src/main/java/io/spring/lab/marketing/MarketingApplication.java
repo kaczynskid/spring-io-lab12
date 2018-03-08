@@ -28,10 +28,12 @@ public class MarketingApplication {
 	@Bean
 	ApplicationRunner testDataInit(SpecialRepository specials) {
 		return args -> {
-			specials.save(new Special(null, 1, 3, BigDecimal.valueOf(70.0)));
-			specials.save(new Special(null, 2, 2, BigDecimal.valueOf(15.0)));
-			specials.save(new Special(null, 3, 4, BigDecimal.valueOf(60.0)));
-			specials.save(new Special(null, 4, 2, BigDecimal.valueOf(40.0)));
+			if (specials.findAll().size() == 0) {
+				specials.save(new Special(null, 1, 3, BigDecimal.valueOf(70.0)));
+				specials.save(new Special(null, 2, 2, BigDecimal.valueOf(15.0)));
+				specials.save(new Special(null, 3, 4, BigDecimal.valueOf(60.0)));
+				specials.save(new Special(null, 4, 2, BigDecimal.valueOf(40.0)));
+			}
 		};
 	}
 }
