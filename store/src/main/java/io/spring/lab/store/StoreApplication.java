@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.ParameterizedTypeReference;
@@ -28,7 +29,8 @@ public class StoreApplication {
 }
 
 @Configuration
-class DiscoveryConfig {
+@EnableFeignClients
+class CloudConfig {
 
 	@Bean @LoadBalanced
 	RestTemplate restTemplate() {
@@ -40,7 +42,7 @@ class DiscoveryConfig {
 @Configuration
 class ClientsConfig {
 
-	@Bean
+	//@Bean
 	ItemsClient restTemplateItemsClient(RestTemplate rest) {
 		return new ItemsClient() {
 			@Override
