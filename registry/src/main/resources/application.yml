@@ -6,6 +6,11 @@ eureka:
     hostname: localhost
   client:
     registerWithEureka: false
-    fetchRegistry: false
+    fetchRegistry: true
     serviceUrl:
       defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka
+
+spring:
+  boot:
+    admin:
+      context-path: /admin

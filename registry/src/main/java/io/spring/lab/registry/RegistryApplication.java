@@ -5,6 +5,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
 import org.springframework.context.annotation.Configuration;
 
+import de.codecentric.boot.admin.config.EnableAdminServer;
+
 @SpringBootApplication
 public class RegistryApplication {
 
@@ -15,6 +17,7 @@ public class RegistryApplication {
 
 @Configuration
 @EnableEurekaServer
+@EnableAdminServer
 class EurekaServerConfig {
 
 }
