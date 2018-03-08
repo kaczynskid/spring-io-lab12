@@ -52,7 +52,7 @@ class StubSpecialRepository implements SpecialRepository {
 
     private String setAndGetNextId(Special special) {
         try {
-            String id = ofNullable(special.getId()).orElseGet(() -> UUID.randomUUID().toString());
+            String id = ofNullable(special.getId()).orElseGet(() -> UUID.randomUUID().toString().replaceAll("-", ""));
             writeField(special, "id", id, true);
             return id;
         } catch (IllegalAccessException e) {

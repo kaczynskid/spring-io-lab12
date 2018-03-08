@@ -32,11 +32,11 @@ public class BasketItemService {
 		return basketItems.findByBasketIdAndItemId(basketId, itemId).orElse(null);
 	}
 
-	public BasketUpdateDiff updateItem(long basketId, long itemId, int count) {
+	public BasketUpdateDiff updateItem(long basketId, long itemId, int countDiff) {
 		BasketItem basketItem = basketItems.findByBasketIdAndItemId(basketId, itemId)
 				.orElse(newBasketItem(basketId, itemId));
 
-		int newUnitCount = basketItem.getUnitCount() + count;
+		int newUnitCount = basketItem.getUnitCount() + countDiff;
 		if (newUnitCount > 0) {
 			return updateInBasket(basketItem, newUnitCount);
 		} else {
@@ -48,14 +48,14 @@ public class BasketItemService {
 		return new BasketItem(basketId, itemId);
 	}
 
-	private BasketUpdateDiff updateInBasket(BasketItem basketItem, int count) {
+	private BasketUpdateDiff updateInBasket(BasketItem basketItem, int unitCount) {
 		ItemRepresentation changes = items.findOne(basketItem.getItemId());
 
 		SpecialCalculation calculation = specials.calculateFor(
 				basketItem.getItemId(),
-				requestCalculationFor(changes.getPrice(), count));
+				requestCalculationFor(changes.getPrice(), unitCount));
 
-		BasketUpdateDiff diff = basketItem.update(changes, count, calculation, math);
+		BasketUpdateDiff diff = basketItem.update(changes, unitCount, calculation, math);
 		basketItems.save(basketItem);
 		return diff;
 	}
