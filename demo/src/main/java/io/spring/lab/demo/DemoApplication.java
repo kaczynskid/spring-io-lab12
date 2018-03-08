@@ -9,11 +9,11 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class SpringIoLabDemoApplication {
+public class DemoApplication {
 
 	public static void main(String[] args) {
 		SpringApplication app = new SpringApplication();
-		app.setSources(singleton(SpringIoLabDemoApplication.class));
+		app.setSources(singleton(DemoApplication.class));
 		app.setDefaultProperties(defaultProperties());
 		app.setAdditionalProfiles("profile1", "profile2");
 		app.run(args);
