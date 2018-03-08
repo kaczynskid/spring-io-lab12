@@ -39,10 +39,12 @@ class DataInitializer implements ApplicationRunner {
 
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
-		items.save(new Item(null, "A", 100, BigDecimal.valueOf(40.0)));
-		items.save(new Item(null, "B", 100, BigDecimal.valueOf(10.0)));
-		items.save(new Item(null, "C", 100, BigDecimal.valueOf(30.0)));
-		items.save(new Item(null, "D", 100, BigDecimal.valueOf(25.0)));
+		if (items.findAll().size() == 0) {
+			items.save(new Item(null, "A", 100, BigDecimal.valueOf(40.0)));
+			items.save(new Item(null, "B", 100, BigDecimal.valueOf(10.0)));
+			items.save(new Item(null, "C", 100, BigDecimal.valueOf(30.0)));
+			items.save(new Item(null, "D", 100, BigDecimal.valueOf(25.0)));
+		}
 	}
 }
 
