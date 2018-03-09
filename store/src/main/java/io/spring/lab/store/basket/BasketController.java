@@ -28,4 +28,11 @@ public class BasketController {
 	public BasketRepresentation findOne(@PathVariable("id") long id) {
 		return BasketRepresentation.of(baskets.findOne(id));
 	}
+
+	@PostMapping("/{id}/checkout")
+	public BasketRepresentation checkout(@PathVariable("id") long id) {
+		Basket basket = baskets.checkout(id);
+		log.info("Checked out basket {}", basket.getId());
+		return BasketRepresentation.of(basket);
+	}
 }
