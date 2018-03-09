@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 import io.spring.lab.store.basket.BasketService;
 import io.spring.lab.store.basket.BasketUpdateDiff;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestController
 @RequestMapping("/baskets/{basketId}/items")
 @AllArgsConstructor
@@ -25,6 +27,7 @@ public class BasketItemController {
 	@GetMapping
 	public List<BasketItemRepresentation> findAll(@PathVariable("basketId") long basketId) {
 		List<BasketItem> list = basketItems.findAllItems(basketId);
+		log.info("Found {} basket items.", list.size());
 		return list.stream()
 				.map(BasketItemRepresentation::of)
 				.collect(Collectors.toList());
@@ -33,6 +36,7 @@ public class BasketItemController {
 	@GetMapping("/{itemId}")
 	public BasketItemRepresentation getItem(@PathVariable("basketId") long basketId, @PathVariable("itemId") long itemId) {
 		BasketItem item = basketItems.findOneItem(basketId, itemId);
+		log.info("Found {} basket item.", item.getName());
 		return BasketItemRepresentation.of(item);
 	}
 
@@ -40,6 +44,7 @@ public class BasketItemController {
 	public BasketUpdateDiff updateItem(@PathVariable("basketId") long basketId, @PathVariable("itemId") long itemId,
                                        @RequestBody UpdateBasketItem request) {
 		BasketUpdateDiff diff = basket.updateItem(basketId, itemId, request.getItemCount());
+		log.info("Applied basket update with {} count diff.", diff.getCountDiff());
 		return diff;
 	}
 }

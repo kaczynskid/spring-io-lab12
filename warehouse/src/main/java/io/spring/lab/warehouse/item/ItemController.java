@@ -25,7 +25,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.spring.lab.warehouse.error.ErrorMessage;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestController
 @RequestMapping("/items")
 @AllArgsConstructor
@@ -38,6 +40,7 @@ class ItemController {
     @GetMapping
     List<ItemRepresentation> findAll() {
         List<Item> list = items.findAll();
+        log.info("Found {} items.", list.size());
         return list.stream()
                 .map(ItemRepresentation::of)
                 .map(r -> r.withInstanceId(env.getRequiredProperty("info.instanceId")))
@@ -47,6 +50,7 @@ class ItemController {
     @PostMapping
     public ResponseEntity<?> create(@RequestBody ItemRepresentation request) {
         Item item = items.create(request.asItem());
+        log.info("Created item {}.", item.getName());
         return ResponseEntity.created(selfUriOf(item)).build();
     }
 
@@ -57,6 +61,7 @@ class ItemController {
     @GetMapping("/{id}")
     public ItemRepresentation findOne(@PathVariable("id") long id) {
         Item item = items.findOne(id);
+        log.info("Found item {}.", item.getName());
         return ItemRepresentation.of(item)
                 .withInstanceId(env.getRequiredProperty("info.instanceId"));
     }

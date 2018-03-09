@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.spring.lab.marketing.special.calculate.SpecialCalculation;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestController
 @AllArgsConstructor
 @RequestMapping("/specials")
@@ -37,6 +39,7 @@ public class SpecialController {
     public SpecialCalculation calculateFor(@PathVariable("itemId") long itemId,
                                            @RequestBody SpecialCalculationRequest request) {
         SpecialCalculation calculation = specials.calculateFor(itemId, request.getUnitPrice(), request.getUnitCount());
+        log.info("Calculated special {}", calculation);
         return calculation;
     }
 
