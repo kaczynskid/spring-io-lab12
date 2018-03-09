@@ -50,7 +50,7 @@ class ItemController {
     @PostMapping
     public ResponseEntity<?> create(@RequestBody ItemRepresentation request) {
         Item item = items.create(request.asItem());
-        log.info("Found item {}.", item.getName());
+        log.info("Created item {}.", item.getName());
         return ResponseEntity.created(selfUriOf(item)).build();
     }
 
@@ -61,6 +61,7 @@ class ItemController {
     @GetMapping("/{id}")
     public ItemRepresentation findOne(@PathVariable("id") long id) {
         Item item = items.findOne(id);
+        log.info("Found item {}.", item.getName());
         return ItemRepresentation.of(item)
                 .withInstanceId(env.getRequiredProperty("info.instanceId"));
     }
