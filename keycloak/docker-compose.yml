@@ -1,0 +1,21 @@
+version: '3'
+services:
+  keycloak-data:
+    image: "postgres:9"
+    volumes:
+      - ".data:/var/lib/postgresql/data"
+    environment:
+      POSTGRES_PASSWORD: "sprio"
+      POSTGRES_DB: "keycloak"
+  keycloak-service:
+    image: "jboss/keycloak"
+    ports:
+      - "8080:8080"
+    environment:
+      DB_VENDOR: "POSTGRES"
+      POSTGRES_PORT_5432_TCP_ADDR: "keycloak-data"
+      POSTGRES_DATABASE: "keycloak"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "sprio"
+      KEYCLOAK_USER: "admin"
+      KEYCLOAK_PASSWORD: "sprio"
